@@ -1,4 +1,26 @@
-<?php require_once __DIR__ . '/../includes/functions.php'; ?>
+<?php session_start();
+require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../database/connect.php';
+$mensagem_de_erro = '';
+
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $email = $_POST['email'] ?? '';
+    $senha = $_POST['senha'] ?? '';
+
+    $usuario = login_user($conexao, $email, $senha);
+
+if ($usuario) {
+        $_SESSION['usuario_id'] = $usuario['id'];
+        $_SESSION['usuario_email'] = $usuario['email'];
+        header("Location: ../index.php");
+        exit(); 
+
+    } else {
+        $mensagem_de_erro = "E-mail ou senha incorretos!";
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,20 +43,13 @@
             <input type="submit" value="Enviar">
             <input type="reset" value="Limpar"> <br>
             <a style="font-family: Verdana, Geneva, Tahoma, sans-serif;" href="/login/cadastrar.php">Não tem uma conta? Crie uma</a>
+
+            <?php if (!empty($mensagem_de_erro)): ?>
+                <p style="color: red;"><?= $mensagem_de_erro; ?></p>
+            <?php endif; ?>
         </form>
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $usuario = login_user($conexao, $_POST['email']);
-            if ($usuario['email'] == $_POST['email'] && $usuario['senha'] == $_POST['senha']) {
-                    session_start();
-                    $_SESSION['id'] = $usuario['id'];
-                    header("Location: ../index.php");
-                    exit();
-            } else {
-                    echo "Hmm tem alguma coisa errada";
-            }
-        }
-        ?>
+
+
     </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
