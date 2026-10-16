@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../database/connect.php';
-$mensagem_de_erro = "As senhas não batem";
+$mensagem_de_erro = '';
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: login.php");
         exit();
     } else {
-        echo $mensagem_de_erro;
+        $mensagem_de_erro = "As senhas não batem!";
     }
 }
 
@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         <h3 style="font-family: 'Times New Roman', Times, serif;">CADASTRE-SE</h3>
         <form action="" method="post">
-            <label for="nome">E-mail: </label> <br>
-            <input type="text" name="email" id="email"><br>
+            <label for="email">E-mail: </label> <br>
+            <input type="email" name="email" id="email"><br>
             <label for="senha">Senha: </label> <br>
             <input type="password" name="senha" id="senha"><br>
             <label for="confirmar_senha">Confirmar senha: </label> <br>
