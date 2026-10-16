@@ -24,7 +24,7 @@
         </form>
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $usuario = consulta_user($conexao, $_POST['email']);
+            $usuario = login_user($conexao, $_POST['email']);
             if ($usuario['email'] == $_POST['email'] && $usuario['senha'] == $_POST['senha']) {
                     session_start();
                     $_SESSION['id'] = $usuario['id'];

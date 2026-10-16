@@ -114,7 +114,7 @@ function cadastra_user($conexao, $email, $senha)
     }
 }
 
-function consulta_user($conexao, $email)
+function login_user($conexao, $email, $senha)
 {
 
     $sql = "SELECT id, email, senha FROM usuarios WHERE email = :email";
@@ -124,10 +124,13 @@ function consulta_user($conexao, $email)
         $stmt->execute();
 
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $usuario;
+        if ($usuario && password_verify($senha, $usuario['senha'])) {
+            return $usuario;
+        }else{
 
+        return false;
+        }
     } catch (PDOException $e) {
-        echo "ERRO: " . $e->getMessage();
+        return false;
     }
 }
-
