@@ -22,7 +22,7 @@ require_once __DIR__ .'/../login/verifica_user.php';
         </form>
         <?php 
         if($_SERVER['REQUEST_METHOD'] =="POST"){
-        apagar($conexao, $_POST['id']);
+        deletar_usuario($conexao, $_POST['id']);
         }
         ?>
     </main>

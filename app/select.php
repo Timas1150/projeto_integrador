@@ -3,7 +3,10 @@ require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../database/connect.php';
 require_once __DIR__ . '/../login/verifica_user.php';
 
-$times = listar_times($conexao);
+$termo_busca = $_GET['busca'] ?? '';
+
+$times = consultar_time($conexao, $termo_busca);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,18 +20,21 @@ $times = listar_times($conexao);
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main>
-        <h2>Times Cadastrados</h2>
+        <h2>Times</h2>
+        <form action="select.php" method="GET" style="margin-bottom: 20px;">
+            <input type="text" name="busca" placeholder="Digite o nome do clube..." value="<?= htmlspecialchars($termo_busca); ?>">
+            <button type="submit">Pesquisar</button>
+        </form>
 
         <?php foreach ($times as $time): ?>
             <div>
                 <?php if (!empty($time['escudo_url'])): ?>
-                    <img src="<?= htmlspecialchars($time['escudo_url']); ?>" alt="Escudo <?= htmlspecialchars($time['nome_clube']); ?>" style="max-width: 70px; height: auto;"><br>
+                    <img src="<?= $time['escudo_url']; ?>" alt="Escudo" width="50"><br>
                 <?php endif; ?>
 
 
                 <h3><?= $time['nome_clube']; ?> - <?= $time['temporada']; ?></h3>
                 <p><?= $time['historia_temporada']; ?></p>
-                <a href="ver_time.php?id=<?= $time['id']; ?>">Ver detalhes</a>
             </div>
             <hr>
         <?php endforeach; ?>

@@ -28,57 +28,23 @@ function listar_times($conexao)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function apagar($conexao, $id)
+
+function consultar_time($conexao, $nome = '')
 {
-    $sql = "DELETE FROM alunos WHERE id = :id";
-    try {
+    $nome = trim($nome);
+
+    if (!empty($nome)) {
+        $sql = "SELECT * FROM times_historicos WHERE LOWER(nome_clube) LIKE LOWER(?) ORDER BY id DESC";
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
-        echo "Usuário $id removido com sucesso!";
-    } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
+        $stmt->execute(["%$nome%"]);
+    } else {
+        $sql = "SELECT * FROM times_historicos ORDER BY id DESC";
+        $stmt = $conexao->query($sql);
     }
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function consultar($conexao, $id)
-{
-
-    $sql = "SELECT nome,turma,nasc,ativo FROM alunos WHERE id = :id";
-    try {
-        $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
-
-        $aluno = $stmt->fetch(PDO::FETCH_ASSOC);
-        echo "Aluno: {$aluno['nome']} <br>";
-        echo "Turma: {$aluno['turma']}<br>";
-        echo "Nasc: {$aluno['nasc']}<br>";
-        echo "Ativo: {$aluno['ativo']}";
-    } catch (PDOException $e) {
-        echo "ERRO: " . $e->getMessage();
-    }
-}
-
-function atualizar($conexao, $id, $nome, $turma, $email, $nasc, $ativo,)
-{
-
-    $sql = "UPDATE alunos SET nome = :nome, turma = :turma, email = :email, nasc = :nasc, ativo = :ativo WHERE id = :id";
-    try {
-        $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":id", $id);
-        $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":turma", $turma);
-        $stmt->bindParam(":email", $email);
-        $stmt->bindParam(":nasc", $nasc);
-        $stmt->bindParam(":ativo", $ativo);
-
-        $stmt->execute();
-        echo "Aluno atualizado com sucesso!";
-    } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
-    }
-}
 
 //Funções para login:
 
@@ -117,6 +83,51 @@ function login_user($conexao, $email, $senha)
         } else {
             return false;
         }
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+// PARA ADMINISTRADORES:
+
+// Função para ver os usuários
+function listar_usuarios($conexao)
+{
+    $sql = "SELECT id, nome, email FROM usuarios ORDER BY id DESC";
+    $stmt = $conexao->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+// Função para deletar os usuários
+function deletar_usuario($conexao, $id)
+{
+    $sql = "DELETE FROM usuarios WHERE id = :id";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+
+// Função para atualizar times
+function atualizar_time($conexao, $id, $nome_clube, $temporada, $historia_temporada, $escudo_url)
+{
+    $sql = "UPDATE times_historicos 
+            SET nome_clube = :nome_clube, 
+                temporada = :temporada, 
+                historia_temporada = :historia_temporada, 
+                escudo_url = :escudo_url 
+            WHERE id = :id";
+
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":nome_clube", $nome_clube);
+        $stmt->bindParam(":temporada", $temporada);
+        $stmt->bindParam(":historia_temporada", $historia_temporada);
+        $stmt->bindParam(":escudo_url", $escudo_url);
+
+        return $stmt->execute();
     } catch (PDOException $e) {
         return false;
     }

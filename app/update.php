@@ -36,7 +36,7 @@ require_once __DIR__ .'/../login/verifica_user.php';
         </form>
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            atualizar($conexao, $_POST['id'], $_POST['nome'], $_POST['turma'], $_POST['email'], $_POST['nasc'], $_POST['ativo']);
+            atualizar_time($conexao, $_POST['id'], $_POST['nome'], $_POST['turma'], $_POST['email'], $_POST['nasc'], $_POST['ativo']);
         }
         ?>
     </main>
