@@ -90,23 +90,25 @@ function login_user($conexao, $email, $senha)
 
 // PARA ADMINISTRADORES:
 
-// Função para ver os usuários
-function listar_usuarios($conexao)
-{
-    $sql = "SELECT id, nome, email FROM usuarios ORDER BY id DESC";
-    $stmt = $conexao->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+// Função para deletar os times
 
-
-// Função para deletar os usuários
-function deletar_usuario($conexao, $id)
+function deletar_time($conexao, $id)
 {
-    $sql = "DELETE FROM usuarios WHERE id = :id";
+    $sql = "DELETE FROM times_historicos WHERE id = :id";
     $stmt = $conexao->prepare($sql);
     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     return $stmt->execute();
+}
+
+// Função para consultar o time sendo admin:
+
+function consultar_time_por_id($conexao, $id)
+{
+    $sql = "SELECT * FROM times_historicos WHERE id = :id";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna só 1 time
 }
 
 // Função para atualizar times

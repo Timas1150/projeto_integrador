@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <textarea name="historia" id="historia" rows="6" cols="40" required></textarea><br><br>
 
             <label for="escudo_url">URL do Escudo / Imagem: </label><br>
-            <input type="url" name="escudo_url" id="escudo_url" placeholder="https://exemplo.com/escudo.png"><br>
+            <input type="url" name="escudo_url" id="escudo_url" placeholder="https://exemplo.com/escudo.png" width="200" height="200"><br>
 
             <input type="submit" value="Cadastrar Time">
             <input type="reset" value="Limpar">
