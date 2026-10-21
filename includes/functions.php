@@ -1,47 +1,31 @@
 <?php
 require_once __DIR__ . '/../database/connect.php';
 
-function cadastrar($conexao, $nome, $turma, $nasc, $ativo, $email)
+function cadastra_time($conexao, $nome_clube, $temporada, $historia_temporada, $escudo_url, $usuario_id)
 {
-
-    $sql = "INSERT INTO alunos (nome, turma, nasc, ativo, email) VALUES (:nome, :turma, :nasc, :ativo, :email)";
+    $sql = "INSERT INTO times_historicos (nome_clube, temporada, historia_temporada, escudo_url, usuario_id) 
+            VALUES (:nome_clube, :temporada, :historia_temporada, :escudo_url, :usuario_id)";
 
     try {
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":turma", $turma);
-        $stmt->bindParam(":nasc", $nasc);
-        $stmt->bindParam(":ativo", $ativo);
-        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":nome_clube", $nome_clube);
+        $stmt->bindParam(":temporada", $temporada);
+        $stmt->bindParam(":historia_temporada", $historia_temporada);
+        $stmt->bindParam(":escudo_url", $escudo_url);
+        $stmt->bindParam(":usuario_id", $usuario_id);
 
-        $stmt->execute();
-        echo "Aluno inserido com sucesso!";
+        return $stmt->execute();
     } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
+        return "Erro no banco: " . $e->getMessage();
     }
 }
 
-function relatorio($conexao)
+function listar_times($conexao)
 {
-    $sql = "SELECT * FROM alunos ORDER BY id ";
-
-    try {
-        $stmt = $conexao->prepare($sql);
-        $stmt->execute();
-
-        $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        foreach ($alunos as $aluno) {
-            echo "ID: . {$aluno['id']} . <br>";
-            echo "Nome: . {$aluno['nome']} . <br>";
-            echo "Turma: . {$aluno['turma']} . <br>";
-            echo "Data de Nascimento: . {$aluno['nasc']} . <br>";
-            echo "Ativo: . {$aluno['ativo']} . <br>";
-            echo "Email: . {$aluno['email']} . <br><br>";
-        }
-    } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
-    }
+    $sql = "SELECT id, nome_clube, temporada, historia_temporada, escudo_url FROM times_historicos ORDER BY criado_em DESC";
+    $stmt = $conexao->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function apagar($conexao, $id)
@@ -98,26 +82,30 @@ function atualizar($conexao, $id, $nome, $turma, $email, $nasc, $ativo,)
 
 //Funções para login:
 
-function cadastra_user($conexao, $email, $senha)
+function cadastra_user($conexao, $nome, $email, $senha)
 {
     $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO usuarios (email, senha) VALUES (:email, :senha)";
+    $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)";
+
     try {
         $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":email", $email);
         $stmt->bindParam(":senha", $senhaHash);
 
-        $stmt->execute();
-        echo "Usuário inserido com sucesso!";
+        return $stmt->execute();
     } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
+        if ($e->getCode() == '23505') {
+            return "Este e-mail já está cadastrado!";
+        }
+        return "Erro ao realizar o cadastro.";
     }
 }
 
 function login_user($conexao, $email, $senha)
 {
 
-    $sql = "SELECT id, email, senha FROM usuarios WHERE email = :email";
+    $sql = "SELECT id, nome, email, senha, perfil FROM usuarios WHERE email = :email";
     try {
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(":email", $email);
@@ -126,9 +114,8 @@ function login_user($conexao, $email, $senha)
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             return $usuario;
-        }else{
-
-        return false;
+        } else {
+            return false;
         }
     } catch (PDOException $e) {
         return false;

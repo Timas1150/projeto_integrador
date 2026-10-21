@@ -3,17 +3,19 @@ require_once __DIR__ . '/../database/connect.php';
 $mensagem_de_erro = '';
 
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = $_POST['nome'] ?? '';
     $email = $_POST['email'] ?? '';
     $senha = $_POST['senha'] ?? '';
-    $confirmar_senha = $_POST['confirmar_senha'] ?? '';
 
-    if ($_POST['senha'] === $_POST['confirmar_senha']) {
-        cadastra_user($conexao, $email, $senha);
+    $resultado = cadastra_user($conexao, $nome, $email, $senha);
+
+    if ($resultado === true) {
+
         header("Location: login.php");
         exit();
     } else {
-        $mensagem_de_erro = "As senhas não batem!";
+        $mensagem_de_erro = $resultado;
     }
 }
 
@@ -33,6 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         <h3 style="font-family: 'Times New Roman', Times, serif;">CADASTRE-SE</h3>
         <form action="" method="post">
+            <label for="nome">Nome: </label><br>
+            <input type="text" name="nome" id="nome"><br>
             <label for="email">E-mail: </label> <br>
             <input type="email" name="email" id="email"><br>
             <label for="senha">Senha: </label> <br>
