@@ -35,12 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
     <main>
-        <h1>Cadastrar Time Histórico</h1>
+        <h1>Cadastrar</h1>
 
         <?php if (!empty($mensagem)): ?>
             <p style="color: red;"><?= $mensagem; ?></p>

@@ -31,6 +31,7 @@ $times = consultar_time($conexao, $termo_busca);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar o time</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -53,6 +54,15 @@ $times = consultar_time($conexao, $termo_busca);
                         <input type="hidden" name="deletar_time_id" value="<?= $time['id']; ?>">
                         <button type="submit">Deletar</button>
                     </form>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'admin'): ?>
+
+                    <!-- LINK DE EDIÇÃO PASSANDO O ID NA URL -->
+                    <a href="update.php?id=<?= $time['id']; ?>">Editar</a>
+
+                    <!-- Seu formulário de deletar continua aqui normal... -->
+
                 <?php endif; ?>
 
                 <h3><?= $time['nome_clube']; ?> - <?= $time['temporada']; ?></h3>

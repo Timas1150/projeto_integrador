@@ -1,0 +1,444 @@
+/* ==========================================================================
+   TEMA CHAMPIONS LEAGUE - LIGA DOS PEREBA (VERSÃO INTEGRAL)
+   ========================================================================== */
+
+/* 1. PALETA DE CORES E VARIÁVEIS DO PROTÓTIPO */
+:root {
+    --bg-main: #050512;            /* Fundo escuro principal */
+    --header-bg: #030511;          /* Cabeçalho noturno da UEFA */
+    --search-bg: #2d1d69;          /* Fundo dos campos e pesquisa */
+    --card-bg-dark: #0a0b1d;       /* Fundo dos cards escuros */
+    --card-bg-light: #ffffff;      /* Fundo branco do card de história */
+    
+    --uefa-cyan: #00f5d4;          /* Cyan vibrante da pílula da UEFA */
+    --gold-title: #f3a812;         /* Amarelo/Dourado dos títulos e bordas */
+    --gold-border: #f3a812;
+    --text-white: #ffffff;
+    --text-dark: #111111;
+    --text-muted: #b0a3e0;
+    
+    --btn-primary: #f3a812;        /* Botão Dourado Principal */
+    --btn-primary-hover: #ffd000;
+    --btn-edit: #1d6fe5;           /* Botão Editar */
+    --btn-delete: #e62238;         /* Botão Deletar */
+    
+    --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    font-family: var(--font-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Remove sublinhados e estilos padrão de links */
+a {
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+}
+
+/* ==========================================================================
+   2. CABEÇALHO (HEADER) E NAVEGAÇÃO ESTILO UEFA
+   ========================================================================== */
+header.header-uefa {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid #141f36;
+    width: 100%;
+    padding: 0 30px;
+}
+
+.nav-container {
+    max-width: 1200px;
+    height: 75px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo à Esquerda */
+.nav-logo {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Menu Central com Espaçamento Amplo (Estilo UEFA) */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 45px;
+}
+
+/* Item Normal do Menu */
+.nav-item {
+    color: #ffffff !important;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    color: var(--uefa-cyan) !important;
+    background-color: rgba(0, 245, 212, 0.08);
+}
+
+/* Pílula Destacada estilo UEFA */
+.nav-item.active, .btn-pill-uefa {
+    background-color: var(--uefa-cyan) !important;
+    color: #01040d !important;
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 8px 22px;
+}
+
+.btn-pill-uefa:hover {
+    box-shadow: 0 0 15px rgba(0, 245, 212, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Área Direita: Saudação e Perfil */
+.user-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.user-greeting {
+    color: var(--gold-title);
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-admin {
+    color: #ffffff;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-left: 4px;
+}
+
+.profile-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--search-bg);
+    border: 2px solid var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-white);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.profile-avatar:hover {
+    transform: scale(1.1) rotate(6deg);
+    border-color: var(--btn-delete);
+    background-color: var(--btn-delete);
+    box-shadow: 0 0 12px rgba(230, 34, 56, 0.6);
+}
+
+/* ==========================================================================
+   3. CONTEÚDO PRINCIPAL E CAMPOS DE ENTRADA
+   ========================================================================== */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.search-container, form[action="select.php"][method="GET"] {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--search-bg);
+    border: 1px solid #422d8e;
+    border-radius: 25px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input::placeholder {
+    color: #b0a3e0;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--gold-title);
+    box-shadow: 0 0 10px rgba(243, 168, 18, 0.4);
+}
+
+/* ==========================================================================
+   4. BOTÕES ESTILIZADOS E ANIMADOS
+   ========================================================================== */
+button, 
+.btn, 
+.btn-editar, 
+.btn-deletar,
+input[type="submit"] {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 26px;
+    border-radius: 25px !important;
+    
+    font-family: var(--font-main);
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    background-color: var(--btn-primary);
+    color: #000000 !important;
+    cursor: pointer;
+    
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+button:hover, 
+.btn:hover,
+input[type="submit"]:hover {
+    transform: translateY(-3px) scale(1.03);
+    background-color: var(--btn-primary-hover);
+    box-shadow: 0 8px 18px rgba(243, 168, 18, 0.4);
+}
+
+button:active, 
+.btn:active,
+input[type="submit"]:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* Botão Editar (Azul) */
+.btn-editar {
+    background-color: var(--btn-edit) !important;
+    color: #ffffff !important;
+}
+
+.btn-editar:hover {
+    background-color: #3b82f6 !important;
+    box-shadow: 0 8px 18px rgba(29, 111, 229, 0.45);
+}
+
+/* Botão Deletar (Vermelho) */
+.btn-deletar {
+    background-color: var(--btn-delete) !important;
+    color: #ffffff !important;
+}
+
+.btn-deletar:hover {
+    background-color: #ff3b50 !important;
+    box-shadow: 0 8px 18px rgba(230, 34, 56, 0.45);
+}
+
+/* ==========================================================================
+   5. CARDS E CAIXAS DE CONTEÚDO
+   ========================================================================== */
+.titulo-destaque, .time-header h3 {
+    background-color: var(--gold-title);
+    color: #000000;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.times-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.time-card-circle {
+    background-color: var(--card-bg-dark);
+    border: 2px solid var(--gold-border);
+    border-radius: 50px;
+    padding: 22px 12px;
+    text-align: center;
+    color: #ffffff !important;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.time-card-circle:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(243, 168, 18, 0.3);
+}
+
+.time-historia-box {
+    background-color: var(--card-bg-light);
+    color: var(--text-dark);
+    border: 3px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 22px;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* ==========================================================================
+   6. TELA DE LOGIN E CADASTRO
+   ========================================================================== */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 65vh;
+}
+
+.login-card {
+    background-color: var(--card-bg-dark);
+    border: 2px solid #1c1543;
+    border-radius: 20px;
+    padding: 35px 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.login-card h2 {
+    color: var(--gold-title);
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    color: var(--text-white);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.form-forgot {
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+.form-forgot a {
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
+}
+
+.form-forgot a:hover {
+    color: var(--uefa-cyan) !important;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.form-actions button, 
+.form-actions .btn {
+    flex: 1;
+}
+
+/* Botão Secundário Limpar (Estilo Pílula Escura com Borda) */
+.btn-secondary-pill {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    border: 1px solid #422d8e !important;
+    padding: 12px 26px;
+    border-radius: 25px !important;
+    font-family: var(--font-main);
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-secondary-pill:hover {
+    background-color: #1a153d !important;
+    border-color: var(--gold-title) !important;
+    color: var(--gold-title) !important;
+    transform: translateY(-2px);
+}
+
+.form-register-link {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.form-register-link a {
+    color: var(--gold-title) !important;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.form-register-link a:hover {
+    color: var(--btn-primary-hover) !important;
+    text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   7. RODAPÉ (FOOTER)
+   ========================================================================== */
+footer {
+    background-color: var(--header-bg);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px solid #141f36;
+    margin-top: auto;
+}

@@ -1,49 +1,67 @@
 <?php
-require_once __DIR__ .'/../includes/functions.php';
-require_once __DIR__ .'/../login/verifica_user.php';
+require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../database/connect.php';
+require_once __DIR__ . '/../login/verifica_user.php';
+
+// 1. Pega o ID da URL
+$id = $_GET['id'] ?? null;
+
+// Se não tiver ID ou não for admin, volta pro select.php
+if (!$id || !isset($_SESSION['perfil']) || $_SESSION['perfil'] !== 'admin') {
+    header("Location: select.php");
+    exit();
+}
+
+// 2. Quando o formulário for enviado (Salvar Alterações)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome_clube'] ?? '';
+    $temporada = $_POST['temporada'] ?? '';
+    $historia = $_POST['historia_temporada'] ?? '';
+    $escudo = $_POST['escudo_url'] ?? '';
+
+    atualizar_time($conexao, $id, $nome, $temporada, $historia, $escudo);
+
+    header("Location: select.php");
+    exit();
+}
+
+// 3. Busca os dados do time para preencher os campos
+$time = consultar_time_por_id($conexao, $id);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atualizar</title>
+    <title>Editar</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
+
     <main>
-        <h1>Atualiza Dados</h1>
-        <form action="" method="post">
-            <label for="id">ID</label>
-            <input type="number" name="id" id="id" placeholder="Insira o ID para atualizar" required><br>
-            <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome"><br>
-            <label for="turma">Turma: </label>
-            <input type="text" name="turma" id="turma"><br>
-            <label for="email">Email: </label>
-            <input type="email" name="email" id="email"><br>
-            <label for="nasc">Nascimento: </label>
-            <input type="date" name="nasc" id="nasc"><br>
-            <label for="ativo">Ativo: </label><br>
-            <input type="radio" name="ativo" id="ativo" value="true">
-            <label for="ativo">SIM</label>
-            <input type="radio" name="ativo" id="ativo" value="false">
-            <label for="ativo">NÃO</label><br>
-            <input type="submit" value="Atualizar">
-            <input type="reset" value="Limpar">
+        <h2>Editar</h2>
+
+        <form action="" method="POST">
+            <label>Nome do Clube:</label><br>
+            <input type="text" name="nome_clube" value="<?= $time['nome_clube']; ?>" required><br><br>
+
+            <label>Temporada:</label><br>
+            <input type="text" name="temporada" value="<?= $time['temporada']; ?>" required><br><br>
+
+            <label>URL do Escudo:</label><br>
+            <input type="text" name="escudo_url" value="<?= $time['escudo_url']; ?>"><br><br>
+
+            <label>História:</label><br>
+            <textarea name="historia_temporada" rows="5" required><?= $time['historia_temporada']; ?></textarea><br><br>
+
+            <button type="submit">Salvar Alterações</button>
+            <a href="select.php">Cancelar</a>
         </form>
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            atualizar_time($conexao, $_POST['id'], $_POST['nome'], $_POST['turma'], $_POST['email'], $_POST['nasc'], $_POST['ativo']);
-        }
-        ?>
     </main>
+
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 
 </html>
-
-<?php 
-

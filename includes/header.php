@@ -3,27 +3,26 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<header>
-    <img src="/includes/download.png" alt="">
-    <nav>
-        <div>
-            <a href="../index.php">Home</a>
 
-            <?php if (isset($_SESSION['usuario_id'])): ?>
-                <span>Olá, <?= $_SESSION['usuario_nome']; ?></span>
+<header class="header-uefa">
+    <div class="nav-container">
+        <a href="/index.php" class="nav-logo">LIGA DOS PEREBA</a>
 
-                <?php if ($_SESSION['usuario_perfil'] === 'admin'): ?>
-                    <span>(Admin)</span>
-                <?php endif; ?>
-
-                <a href="../app/create.php">Cadastrar Time</a>
-                <a href="../login/logout.php">Sair</a>
-                <a href="../app/select.php">Ver time</a>
-            <?php else: ?>
-                <a href="../login/login.php">Entrar</a>
-                <a href="../login/cadastrar.php">Criar Conta</a>
+        <nav class="nav-menu">
+            <a href="/index.php" class="nav-item">Home</a>
+            <a href="/app/select.php" class="nav-item">Times</a>
+            
+            <!-- Mostra para qualquer pessoa logada -->
+            <?php if (isset($_SESSION['usuario_id']) || isset($_SESSION['usuario_nome'])): ?>
+                <a href="/app/create.php" class="nav-item btn-pill-uefa">Cadastrar Time</a>
             <?php endif; ?>
+        </nav>
 
+        <div class="user-nav-right">
+            <?php if (isset($_SESSION['usuario_nome'])): ?>
+                <span class="user-greeting">Olá, <?= $_SESSION['usuario_nome']; ?></span>
+                <a href="/login/logout.php" class="profile-avatar">👤</a>
+            <?php endif; ?>
         </div>
-    </nav>
+    </div>
 </header>
