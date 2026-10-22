@@ -34,7 +34,7 @@ psql -U postgres
 Dentro do `psql`, execute os comandos abaixo para criar o usuário com senha `liga_pereba`, criar o banco e importar o dump das tabelas:
 
 ```sql
-CREATE USER liga_pereba WITH PASSWORD 'liga_pereba';
+CREATE USER timas WITH PASSWORD 'timas';
 CREATE DATABASE liga_pereba OWNER liga_pereba;
 \c liga_pereba
 \i 'database/liga_pereba.sql'
