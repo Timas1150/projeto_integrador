@@ -22,7 +22,7 @@ O propósito do projeto é oferecer aos torcedores e entusiastas do futebol uma 
 * Cliente de banco de dados (phpMyAdmin ou terminal MySQL).
 
 ### 2.2 Passo 1: Obter o Projeto e Estrutura de Pastas
-Clone o repositório oficial ou extraia os arquivos dentro da raiz do seu servidor web (ex: `C:/xampp/htdocs/projeto_integrador` ou `htdocs/liga_pereba`):
+Clone o repositório oficial ou extraia os arquivos dentro da raiz do seu servidor web 
 
 ```bash
 git clone https://github.com/Timas1150/projeto_integrador.git liga_pereba
