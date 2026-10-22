@@ -1,4 +1,4 @@
-#  Liga dos Pereba — Documentação Técnica do Sistema
+# Liga dos Pereba — Documentação Técnica do Sistema
 
 ---
 
@@ -10,80 +10,41 @@ O **Liga dos Pereba** é uma aplicação web desenvolvida para catalogar, organi
 O sistema possui autenticação de usuários baseada em sessões HTTP e controle de autorização em dois níveis: usuários comuns (com privilégio de publicação) e administradores (com privilégios exclusivos de edição e exclusão de registros).
 
 ### 1.2 Propósito
-O propósito do projeto é oferecer aos torcedores e entusiastas do futebol uma interface fluida, moderna e responsiva inspirada no padrão visual da **UEFA Champions League** (modo noturno, cores ciano/dourado e tipografia Montserrat). Além disso, serve como artefato prático de desenvolvimento web utilizando PHP estruturado, banco de dados MySQL e CSS3 sem dependência de frameworks externos.
+O propósito do projeto é oferecer aos torcedores e entusiastas do futebol uma interface fluida, moderna e responsiva inspirada no padrão visual da **UEFA Champions League** (modo noturno, cores ciano/dourado e tipografia Montserrat). Além disso, serve como artefato prático de desenvolvimento web utilizando PHP estruturado, banco de dados PostgreSQL e CSS3 sem dependência de frameworks externos.
 
 ---
 
 ## 2. Como Executar o Projeto Localmente
 
-### 2.1 Pré-requisitos
-* Servidor web local com suporte a PHP 8.x e MySQL (ex: XAMPP, WAMP, Laragon ou PHP Built-in Server).
-* Navegador web moderno.
-* Cliente de banco de dados (phpMyAdmin ou terminal MySQL).
-
-### 2.2 Passo 1: Obter o Projeto e Estrutura de Pastas
-Clone o repositório oficial ou extraia os arquivos dentro da raiz do seu servidor web 
+### 1. Clonar o repositório
+Clone o repositório dentro da raiz do seu servidor web:
 
 ```bash
-git clone https://github.com/Timas1150/projeto_integrador.git liga_pereba
+git clone [https://github.com/Timas1150/projeto_integrador.git](https://github.com/Timas1150/projeto_integrador.git) liga_pereba
 cd liga_pereba
 ```
 
-### 2.3 Passo 2: Configuração do Banco de Dados MySQL
-Acesse o **phpMyAdmin** (`http://localhost/phpmyadmin`) ou o terminal do MySQL e execute o script para criar o banco de dados e as tabelas:
+### 2. Configurar o banco de dados
+Na pasta do projeto, abra o PostgreSQL pelo terminal e informe a senha de `postgres`:
+
+```bash
+psql -U postgres
+```
+
+Dentro do `psql`, execute os comandos abaixo para criar o usuário com senha `liga_pereba`, criar o banco e importar o dump das tabelas:
 
 ```sql
-CREATE DATABASE IF NOT EXISTS liga_pereba;
-USE liga_pereba;
-
--- Tabela de Usuários
-CREATE TABLE IF NOT EXISTS usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL,
-    perfil VARCHAR(20) NOT NULL DEFAULT 'user'
-);
-
--- Tabela de Times
-CREATE TABLE IF NOT EXISTS times (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    ano INT NOT NULL,
-    historia TEXT NOT NULL,
-    usuario_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
-);
+CREATE USER liga_pereba WITH PASSWORD 'liga_pereba';
+CREATE DATABASE liga_pereba OWNER liga_pereba;
+\c liga_pereba
+\i 'database/liga_pereba.sql'
+\q
 ```
 
-### 2.4 Passo 3: Configurar a Conexão PHP
-Abra o arquivo `includes/conexao.php` e ajuste os parâmetros de conexão de acordo com o seu ambiente local:
+O dump cria as tabelas e concede ao usuário `liga_pereba` as permissões para a aplicação. Execute essa instalação em um banco novo.
 
-```php
-<?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$db   = 'liga_pereba';
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-?>
-```
-
-### 2.5 Passo 4: Executar a Aplicação
-No seu navegador, acesse a URL correspondente à pasta do projeto:  
-`http://localhost/liga_pereba/index.php` (ou através do servidor embutido do PHP com `php -S localhost:8000`).
-
-### 2.6 Passo 5: Promover uma Conta a Administrador
-Por padrão, todo cadastro público pelo formulário web registra a conta como usuário comum (`perfil = 'user'`). Para conceder permissão administrativa e testar os botões de edição e exclusão de times, execute a seguinte instrução SQL no banco de dados:
-
-```sql
-UPDATE usuarios SET perfil = 'admin' WHERE email = 'seuemail@exemplo.com';
-```
+### 3. Executar a aplicação
+No navegador, acesse `http://localhost/liga_pereba/index.php` (ou execute `php -S localhost:8000` na pasta do projeto).
 
 ---
 
@@ -98,8 +59,8 @@ UPDATE usuarios SET perfil = 'admin' WHERE email = 'seuemail@exemplo.com';
 
 | Perfil | Responsabilidade e Acesso |
 | :--- | :--- |
-| **Visitante** | Acessar a Home (`index.php`), consultar o acervo de times, visualizar histórias e acessar as telas de login e cadastro. |
-| **Usuário Cadastrado** | Acessar a conta (`perfil = 'user'`), cadastrar novos times no acervo (`app/create.php`) e realizar pesquisas por nome/conteúdo. |
+| **Visitante** | Acessar a Home (`index.php`), consultar e pesquisar no acervo de times (`app/select.php`), visualizar histórias e acessar as telas de login e cadastro. |
+| **Usuário Cadastrado** | Todas as permissões de visitante (`perfil = 'user'`), além de autenticar-se no sistema e cadastrar novos times no acervo (`app/create.php`). |
 | **Administrador** | Todas as atribuições do usuário cadastrado (`perfil = 'admin'`), com permissão exclusiva de edição (`app/update.php`) e exclusão de times (`app/delete.php`). |
 
 ### 3.3 Principais Telas
@@ -135,7 +96,7 @@ UPDATE usuarios SET perfil = 'admin' WHERE email = 'seuemail@exemplo.com';
 
 | ID | Requisito | Descrição | Prioridade |
 | :--- | :--- | :--- | :--- |
-| **RNF01** | Tecnologias | Construir o sistema utilizando PHP, MySQL, HTML5 e CSS3 nativo. | Alta |
+| **RNF01** | Tecnologias | Construir o sistema utilizando PHP, PostgreSQL, HTML5 e CSS3 nativo. | Alta |
 | **RNF02** | Identidade visual | Adotar tema escuro inspirado na UEFA Champions League, utilizando variáveis CSS e a fonte Montserrat. | Média |
 | **RNF03** | Usabilidade | Prover menus centralizados, botões estilo pílula e navegação fluida em todas as telas. | Alta |
 | **RNF04** | Controle de acesso | Validar a sessão HTTP e as permissões de usuário no servidor para operações restritas. | Alta |
@@ -155,49 +116,16 @@ UPDATE usuarios SET perfil = 'admin' WHERE email = 'seuemail@exemplo.com';
 
 ---
 
-## 5. Organização dos Dados
+## 5. Diagramas e Fluxos
 
-A persistência do sistema utiliza o modelo relacional em MySQL.
-
-### 5.1 Dicionário de Dados
-
-#### Tabela: `usuarios`
-Armazena as contas cadastradas e seus níveis de acesso.
-
-| Campo | Tipo | Nulo | Restrições | Finalidade |
-| :--- | :--- | :--- | :--- | :--- |
-| `id` | `INT` | **Não** | `AUTO_INCREMENT PRIMARY KEY` | Identificador único do usuário. |
-| `nome` | `VARCHAR(100)` | **Não** | — | Nome completo ou de exibição. |
-| `email` | `VARCHAR(100)` | **Não** | `UNIQUE` | E-mail do usuário utilizado no login. |
-| `senha` | `VARCHAR(255)` | **Não** | — | Hash de senha do usuário. |
-| `perfil` | `VARCHAR(20)` | **Não** | `DEFAULT 'user'` | Perfil de acesso (`'admin'` ou `'user'`). |
-
-#### Tabela: `times`
-Armazena as equipes futebolísticas e seus conteúdos históricos.
-
-| Campo | Tipo | Nulo | Restrições | Finalidade |
-| :--- | :--- | :--- | :--- | :--- |
-| `id` | `INT` | **Não** | `AUTO_INCREMENT PRIMARY KEY` | Identificador único do time. |
-| `nome` | `VARCHAR(100)` | **Não** | — | Nome da equipe (ex: "AC Milan", "Bayern"). |
-| `ano` | `INT` | **Não** | — | Ano ou temporada marcante do elenco. |
-| `historia` | `TEXT` | **Não** | — | Relato detalhado sobre o time e títulos. |
-| `usuario_id` | `INT` | **Sim** | `FK -> usuarios(id)` | Identificador do usuário que realizou o cadastro. |
-
-### 5.2 Relacionamentos
-* **`usuarios` $\rightarrow$ `times` (1 : N):** Um usuário pode cadastrar um ou múltiplos ($N$) times no sistema. O campo `usuario_id` armazena a referência para o criador do registro.
-
----
-
-## 6. Diagramas e Fluxos
-
-### 6.1 Diagrama Entidade-Relacionamento (DER)
+### 5.1 Diagrama Entidade-Relacionamento (DER)
 
 ```mermaid
 erDiagram
     USUARIOS {
         INT id PK
         VARCHAR_100 nome
-        VARCHAR_100 email
+        VARCHAR_100 email UK
         VARCHAR_255 senha
         VARCHAR_20 perfil
     }
@@ -215,20 +143,19 @@ erDiagram
 
 ---
 
-### 6.2 Mapa de Funcionalidades por Perfil
+### 5.2 Mapa de Funcionalidades por Perfil
 
 ```text
 [ Visitante ]
- ├── Visualizar Home (Página Inicial)
- ├── Consultar Acervo de Times e Histórias
- ├── Acessar Tela de Login
- └── Acessar Tela de Cadastro de Usuário
+ ├── Visualizar Home (index.php)
+ ├── Consultar e Pesquisar Acervo de Times (app/select.php)
+ ├── Acessar Tela de Login (login/login.php)
+ └── Acessar Tela de Cadastro de Usuário (login/cadastrar.php)
 
 [ Usuário Cadastrado (perfil = 'user') ]
  ├── (Todas as permissões de Visitante)
  ├── Autenticar no Sistema (Login / Logout)
- ├── Cadastrar Novo Time Histórico
- └── Pesquisar Times por Título ou Conteúdo
+ └── Cadastrar Novo Time Histórico (app/create.php)
 
 [ Administrador (perfil = 'admin') ]
  ├── (Todas as permissões de Usuário Cadastrado)
@@ -238,7 +165,7 @@ erDiagram
 
 ---
 
-## 7. Roteiro de Verificação Manual
+## 6. Roteiro de Verificação Manual
 
 | Cenário | Ação Executada | Resultado Esperado |
 | :--- | :--- | :--- |
@@ -246,13 +173,13 @@ erDiagram
 | **02. Login Inválido** | Inserir e-mail não registrado ou senha incorreta. | Recusa do acesso e mensagem de erro exibida. |
 | **03. Logout** | Clicar no botão do perfil para encerrar a sessão. | Destruição da sessão e bloqueio de páginas privadas. |
 | **04. Cadastro de Time** | Preencher o formulário de cadastro com nome, ano e história. | Time salvo no banco e exibido no acervo geral (`app/select.php`). |
-| **05. Pesquisa de Times** | Digitar um termo no campo de busca (ex: "Bayern"). | Filtro aplicado com sucesso exibindo apenas os resultados correspondentes. |
-| **06. Bloqueio de Edição (User)**| Tentar acessar a rota de edição logado como usuário comum. | Acesso bloqueado pelo servidor com negação de permissão. |
-| **07. Exclusão de Time (Admin)**| Clicar no botão "Deletar" utilizando uma conta administrador. | Time removido permanentemente da base de dados e do acervo. |
+| **05. Pesquisa de Times** | Digitar um termo no campo de busca (ex.: "Bayern"). | Filtro aplicado com sucesso exibindo apenas os resultados correspondentes. |
+| **06. Bloqueio de Edição (User)** | Tentar acessar a rota de edição logado como usuário comum. | Acesso bloqueado pelo servidor com negação de permissão. |
+| **07. Exclusão de Time (Admin)** | Clicar no botão "Deletar" utilizando uma conta de administrador. | Time removido permanentemente da base de dados e do acervo. |
 
 ---
 
-## 8. Prototipagem
+## 7. Prototipagem
 
 O planejamento visual e a estrutura das telas foram desenvolvidos em um protótipo de baixa fidelidade interativo.
 
