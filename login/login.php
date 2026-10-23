@@ -51,10 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <input type="email" name="email" id="email"><br>
             <label for="senha">Senha: </label> <br>
             <input type="password" name="senha" id="senha" required><br>
-            <a href="/login/esqueceu.php">Esqueceu a senha?</a> <br>
             <input type="submit" value="Enviar">
             <input type="reset" value="Limpar"> <br>
-            <a style="font-family: Verdana, Geneva, Tahoma, sans-serif;" href="/login/cadastrar.php">Não tem uma conta? Crie uma</a>
+            <a style="font-family: Verdana, Geneva, Tahoma, sans-serif;" href="/projeto_integrador/login/cadastrar.php">Não tem uma conta? Crie uma</a>
 
             <?php if (!empty($mensagem_de_erro)): ?>
                 <p style="color: red;"><?= $mensagem_de_erro; ?></p>

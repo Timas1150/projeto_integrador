@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($resultado === true) {
 
-        header("Location: login.php");
+        header("Location: /projeto_integrador/login.php");
         exit();
     } else {
         $mensagem_de_erro = $resultado;
