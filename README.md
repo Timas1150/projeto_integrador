@@ -21,7 +21,7 @@ Clone o repositório dentro da raiz do seu servidor web:
 
 ```bash
 sudo git clone https://github.com/Timas1150/projeto_integrador.git
-cd liga_pereba
+cd projeto_integrador
 ```
 
 ### 2. Configurar o banco de dados
@@ -41,10 +41,10 @@ CREATE DATABASE liga_pereba OWNER liga_pereba;
 \q
 ```
 
-O dump cria as tabelas e concede ao usuário `liga_pereba` as permissões para a aplicação. Execute essa instalação em um banco novo.
+O dump cria as tabelas e concede ao usuário `timas` as permissões para a aplicação. Execute essa instalação em um banco novo.
 
 ### 3. Executar a aplicação
-No navegador, acesse `http://localhost/liga_pereba/index.php` (ou execute `php -S localhost:8000` na pasta do projeto).
+No navegador, acesse `http://localhost/projeto_integrador/index.php` (ou execute `php -S localhost:8000` na pasta do projeto).
 
 ---
 
