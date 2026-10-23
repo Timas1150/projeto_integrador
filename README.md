@@ -20,7 +20,7 @@ O propósito do projeto é oferecer aos torcedores e entusiastas do futebol uma 
 Clone o repositório dentro da raiz do seu servidor web:
 
 ```bash
-git clone [https://github.com/Timas1150/projeto_integrador.git](https://github.com/Timas1150/projeto_integrador.git) liga_pereba
+sudo git clone https://github.com/Timas1150/projeto_integrador.git
 cd liga_pereba
 ```
 
@@ -28,7 +28,7 @@ cd liga_pereba
 Na pasta do projeto, abra o PostgreSQL pelo terminal e informe a senha de `postgres`:
 
 ```bash
-psql -U postgres
+sudo -u postgres psql
 ```
 
 Dentro do `psql`, execute os comandos abaixo para criar o usuário com senha `liga_pereba`, criar o banco e importar o dump das tabelas:
