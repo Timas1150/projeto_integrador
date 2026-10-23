@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         </form>
     </main>
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include __DIR__ . '/projeto_integrador/includes/footer.php'; ?>
 </body>
 
 </html>

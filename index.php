@@ -15,7 +15,7 @@
             <h1>
                 Pereba League
             </h1>
-            <h3><p>Bem vindo ao pereba League, aqui nós mostramos estatíticas de times históricos da liga dos campeões. </p></h3>
+            <h3><p>Bem vindo ao pereba League, aqui nós mostramos narrativas e algumas estatísticas de times históricos da liga dos campeões. </p></h3>
         </article>
     </main>
         <?php include __DIR__ . '/includes/footer.php'; ?>
