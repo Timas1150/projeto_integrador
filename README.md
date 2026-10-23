@@ -35,7 +35,7 @@ Dentro do `psql`, execute os comandos abaixo para criar o usuário com senha `li
 
 ```sql
 CREATE USER timas WITH PASSWORD 'timas';
-CREATE DATABASE liga_pereba OWNER liga_pereba;
+CREATE DATABASE liga_pereba OWNER timas;
 \c liga_pereba
 \i 'database/liga_pereba.sql'
 \q
