@@ -52,14 +52,12 @@ No navegador, acesse `http://localhost/projeto_integrador/index.php` (ou execute
 
 ### 3.1 Público-alvo
 * **Fãs de Futebol e Torcedores:** Pessoas que desejam pesquisar e ler sobre momentos e elencos históricos.
-* **Usuários Cadastrados:** Torcedores e colaboradores que desejam registrar a história de seus times favoritos.
-* **Administradores:** Gestores responsáveis por moderar o acervo, corrigir informações e excluir registros indevidos.
 
 ### 3.2 Perfis de Acesso
 
 | Perfil | Responsabilidade e Acesso |
 | :--- | :--- |
-| **Visitante** | Acessar a Home (`index.php`), consultar e pesquisar no acervo de times (`app/select.php`), visualizar histórias e acessar as telas de login e cadastro. |
+| **Visitante** | Acessar a Home (`index.php`), e acessar as telas de login e cadastro. |
 | **Usuário Cadastrado** | Todas as permissões de visitante (`perfil = 'user'`), além de autenticar-se no sistema e cadastrar novos times no acervo (`app/create.php`). |
 | **Administrador** | Todas as atribuições do usuário cadastrado (`perfil = 'admin'`), com permissão exclusiva de edição (`app/update.php`) e exclusão de times (`app/delete.php`). |
 
