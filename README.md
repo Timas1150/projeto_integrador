@@ -10,7 +10,7 @@ O **Liga dos Pereba** é uma aplicação web desenvolvida para catalogar, organi
 O sistema possui autenticação de usuários baseada em sessões HTTP e controle de autorização em dois níveis: usuários comuns (com privilégio de publicação) e administradores (com privilégios exclusivos de edição e exclusão de registros).
 
 ### 1.2 Propósito
-O propósito do projeto é oferecer aos torcedores e entusiastas do futebol uma interface fluida, moderna e responsiva inspirada no padrão visual da **UEFA Champions League** (modo noturno, cores ciano/dourado e tipografia Montserrat). Além disso, serve como artefato prático de desenvolvimento web utilizando PHP estruturado, banco de dados PostgreSQL e CSS3 sem dependência de frameworks externos.
+O propósito do projeto é oferecer aos torcedores e entusiastas do futebol uma interface fluida, moderna e responsiva inspirada no padrão visual da **UEFA Champions League** (modo noturno, cores ciano/dourado e tipografia Montserrat). 
 
 ---
 
